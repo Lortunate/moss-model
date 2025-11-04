@@ -1,6 +1,6 @@
 #[test]
 fn infer_realesrgan() {
-    use Moss_ONNX::{RealEsrgan, SuperResolution};
+    use moss_model::{RealEsrgan, SuperResolution};
     use opencv::imgcodecs;
     use std::fs;
     use std::path::Path;
@@ -27,9 +27,11 @@ fn infer_realesrgan() {
         };
 
         let input = imgcodecs::imread(path.to_str().unwrap(), imgcodecs::IMREAD_UNCHANGED).unwrap();
-        let output = sr.run(input).unwrap();
-
         let stem = path.file_stem().and_then(|s| s.to_str()).unwrap();
+        let start = std::time::Instant::now();
+        let output = sr.run(input).unwrap();
+        let elapsed_ms = start.elapsed().as_secs_f64() * 1000.0;
+        println!("{}: {:.2}ms", stem, elapsed_ms);
         let out_path = format!("tests/results/{}_x4.{}", stem, ext);
 
         imgcodecs::imwrite(&out_path, &output, &opencv::core::Vector::new()).unwrap();

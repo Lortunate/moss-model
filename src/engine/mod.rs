@@ -1,9 +1,9 @@
 use std::path::Path;
 
-use ort::Result as OrtResult;
 use ort::execution_providers::*;
-use ort::session::Session;
 use ort::session::builder::SessionBuilder;
+use ort::session::Session;
+use ort::Result as OrtResult;
 
 fn create_common_session_builder() -> OrtResult<SessionBuilder> {
     let num_threads = num_cpus::get().max(1);
@@ -22,10 +22,7 @@ fn create_common_session_builder() -> OrtResult<SessionBuilder> {
     #[cfg(target_os = "windows")]
     {
         providers.push(CUDAExecutionProvider::default().build());
-        #[cfg(feature = "directml")]
-        {
-            providers.push(DirectMLExecutionProvider::default().build());
-        }
+        providers.push(DirectMLExecutionProvider::default().build());
     }
 
     #[cfg(target_os = "linux")]
@@ -36,6 +33,7 @@ fn create_common_session_builder() -> OrtResult<SessionBuilder> {
             providers.push(TensorRTExecutionProvider::default().build());
         }
     }
+
     providers.push(CPUExecutionProvider::default().build());
 
     let builder = Session::builder()?
