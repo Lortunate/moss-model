@@ -9,16 +9,16 @@ opencv = { version = "0.97.0", default-features = false, features = ["imgproc", 
 rayon = "1.10"
 num_cpus = "1.17.0"
 
-ort = { version = "2.0.0-rc.10", features = ["ndarray"] }
+ort = { version = "2.0.0-rc.10"}
 
 [target.'cfg(target_os = "macos")'.dependencies]
-ort = { version = "2.0.0-rc.10", features = ["ndarray", "coreml"] }
+ort = { version = "2.0.0-rc.10", features = [ "coreml"] }
 
 [target.'cfg(target_os = "windows")'.dependencies]
-ort = { version = "2.0.0-rc.10", features = ["ndarray", "cuda", "directml"] }
+ort = { version = "2.0.0-rc.10", features = [ "cuda", "directml"] }
 
 [target.'cfg(target_os = "linux")'.dependencies]
-ort = { version = "2.0.0-rc.10", features = ["ndarray", "cuda"] }
+ort = { version = "2.0.0-rc.10", features = ["cuda"] }
 
 [target.'cfg(target_os = "android")'.dependencies]
-ort = { version = "2.0.0-rc.10", features = ["ndarray", "nnapi"] }
+ort = { version = "2.0.0-rc.10", features = [ "nnapi"] }
